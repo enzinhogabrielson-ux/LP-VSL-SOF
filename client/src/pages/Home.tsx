@@ -79,11 +79,24 @@ export default function Home() {
             style={{ width: 500, height: 250, background: 'rgba(10,50,120,0.15)', top: '30%', right: '-5%', animationDuration: '16s', animationDirection: 'reverse' }} />
         </div>
         
-        <div className="text-[0.7rem] tracking-[0.35em] uppercase text-[#c8a96e] opacity-85 mb-7 animate-fade-up" style={{ animationDelay: '0.2s' }}>
+        {/* WARNING ALERT */}
+        <div className="absolute top-6 w-full max-w-2xl px-4 animate-fade-up">
+          <div className="bg-[#ff1100]/10 border border-[#ff1100]/40 rounded-lg p-3 flex items-center justify-center gap-3 backdrop-blur-sm shadow-[0_0_20px_rgba(255,17,0,0.15)]">
+            <span className="flex h-2 w-2 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff1100] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff1100]"></span>
+            </span>
+            <p className="text-[#ff4444] text-[0.75rem] md:text-sm font-bold tracking-[0.2em] uppercase">
+              WARNING: DO NOT CLOSE THIS PAGE · SINGLE VIEW ONLY
+            </p>
+          </div>
+        </div>
+        
+        <div className="text-[0.7rem] tracking-[0.35em] uppercase text-[#c8a96e] opacity-85 mb-7 mt-12 animate-fade-up" style={{ animationDelay: '0.2s' }}>
           Sofia de Luca · Restricted Access
         </div>
         
-        <h1 className="font-serif text-[clamp(2.2rem,5.5vw,4.2rem)] font-bold leading-[1.12] max-w-[820px] animate-fade-up" 
+        <h1 className="font-serif text-[clamp(2.2rem,5.5vw,4.5rem)] font-bold leading-[1.12] max-w-[900px] animate-fade-up" 
           style={{
             background: 'linear-gradient(135deg, #e8eef8 0%, #8aa4c8 50%, #c8a96e 100%)',
             WebkitBackgroundClip: 'text',
@@ -91,10 +104,10 @@ export default function Home() {
             backgroundClip: 'text',
             animationDelay: '0.4s'
           }}>
-          The Market Does Not Forgive Amateurs.<br/><em className="not-italic font-normal">But It Rewards Method.</em>
+          $10,000 in your bank account...<br/><em className="not-italic font-normal">In 90 seconds, I'll hand it to you.</em>
         </h1>
         
-        <p className="mt-6 text-[clamp(0.95rem,2vw,1.15rem)] text-[#8aa4c8] font-light max-w-[560px] leading-[1.7] opacity-90 animate-fade-up" style={{ animationDelay: '0.65s' }}>
+        <p className="mt-8 text-[clamp(1rem,2vw,1.25rem)] text-[#8aa4c8] font-light max-w-[600px] leading-[1.7] opacity-90 animate-fade-up" style={{ animationDelay: '0.65s' }}>
           You are about to access something most people will never see. Watch the full video before making any decision.
         </p>
         
