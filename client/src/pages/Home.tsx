@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Play, Lock, ShieldCheck } from "lucide-react";
+import { Play, Lock, Unlock, ShieldCheck } from "lucide-react";
 import Player from "@vimeo/player";
 
 const Particles = () => {
@@ -135,6 +135,8 @@ export default function Home() {
 
   return (
     <div className="bg-[#030d1a] min-h-screen text-[#e8eef8] font-sans overflow-x-hidden selection:bg-[#2060c8] selection:text-white">
+      <div className="noise-overlay" />
+      <div className="scanline" />
       <Particles />
       <div 
         className="fixed inset-0 pointer-events-none z-[1]" 
@@ -308,7 +310,7 @@ export default function Home() {
               }}
             >
               <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.08), transparent)' }} />
-              {!unlocked ? <Lock className="w-4 h-4 shrink-0" /> : <ShieldCheck className="w-5 h-5 text-[#e8eef8] shrink-0" />}
+              {!unlocked ? <Lock className="w-4 h-4 shrink-0" /> : <Unlock className="w-5 h-5 text-[#e8eef8] shrink-0 animate-unlock-icon" />}
               <span>I Want VIP Access Now</span>
             </button>
             
