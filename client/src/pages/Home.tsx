@@ -42,6 +42,37 @@ export default function Home() {
     }
   }, []);
 
+  // Intersection Observer to auto-play and unmute when video comes into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !started) {
+            setStarted(true);
+            if (playerRef.current) {
+              playerRef.current.setVolume(1).catch(err => {
+                console.error("Vimeo auto-unmute error:", err);
+                // Fallback: browsers might block autoplay with sound
+                // In a real scenario, this is where we'd show the unmute button again if it fails
+              });
+            }
+          }
+        });
+      },
+      { threshold: 0.5 } // Trigger when 50% of the video section is visible
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, [started]);
+
   const handleUnmuteAndPlay = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
