@@ -42,13 +42,20 @@ export default function Home() {
     }
   }, []);
 
-  const handleUnmuteAndPlay = async () => {
-    if (playerRef.current) {
-      await playerRef.current.setVolume(1);
-      await playerRef.current.setCurrentTime(0);
-      await playerRef.current.play();
-    }
+  const handleUnmuteAndPlay = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Esconder o overlay imediatamente
     setStarted(true);
+    
+    if (playerRef.current) {
+      try {
+        await playerRef.current.setVolume(1);
+      } catch (err) {
+        console.error("Vimeo playback error:", err);
+      }
+    }
   };
   
   const m = Math.floor(remaining / 60);
@@ -180,15 +187,15 @@ export default function Home() {
             }}>
             
             {/* Embedded Vimeo Video */}
-            <div className="relative w-full aspect-[16/9] z-10 bg-black">
+            <div className={`relative w-full aspect-[16/9] z-10 bg-black ${!started ? 'pointer-events-none' : 'pointer-events-auto'}`}>
               <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
                 <iframe 
+                  id="vimeo-player"
                   ref={iframeRef}
-                  src="https://player.vimeo.com/video/1170075786?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;muted=1" 
+                  src="https://player.vimeo.com/video/1170075786?autoplay=1&muted=1&controls=0&loop=1&title=0&byline=0&portrait=0&background=1" 
                   frameBorder="0" 
                   allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
-                  referrerPolicy="strict-origin-when-cross-origin" 
-                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} 
+                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }} 
                   title="VSL"
                 />
               </div>
@@ -197,11 +204,11 @@ export default function Home() {
             {/* Play Overlay */}
             {!started && (
               <div 
-                className="absolute inset-0 flex flex-col items-center justify-center gap-4 cursor-pointer transition-colors duration-300 z-20"
-                style={{ background: 'rgba(4, 13, 28, 0.4)', backdropFilter: 'blur(2px)' }}
+                className="absolute inset-0 flex flex-col items-center justify-center gap-4 cursor-pointer z-[50]"
+                style={{ background: 'rgba(4, 13, 28, 0.4)', backdropFilter: 'blur(4px)' }}
                 onClick={handleUnmuteAndPlay}
               >
-                <div className="w-[80px] h-[80px] rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[rgba(32,96,200,0.6)]" 
+                <div className="w-[80px] h-[80px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-[rgba(32,96,200,0.6)]" 
                   style={{ background: 'rgba(32,96,200,0.8)', border: '2px solid rgba(255,255,255,0.8)', boxShadow: '0 0 30px rgba(32,96,200,0.5)' }}>
                   <Play className="text-white w-10 h-10 ml-1 fill-current" />
                 </div>
@@ -210,10 +217,10 @@ export default function Home() {
                 </span>
               </div>
             )}
+            
+            {/* Click Catcher to ensure video can be interacted with after starting */}
             {started && (
-              <div className="absolute inset-0 pointer-events-none z-20">
-                {/* Transparent overlay just to catch clicks if needed, but lets video through */}
-              </div>
+              <div className="absolute inset-0 pointer-events-none z-20"></div>
             )}
           </div>
           
