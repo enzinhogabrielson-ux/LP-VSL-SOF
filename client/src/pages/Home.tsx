@@ -55,18 +55,7 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [started, remaining]);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !started) {
-        setStarted(true);
-      }
-    }, { threshold: 0.4 });
-    
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
-    }
-    return () => observer.disconnect();
-  }, [started]);
+  const progressPercentage = ((90 - remaining) / 90) * 100;
 
   return (
     <div className="bg-[#030d1a] min-h-screen text-[#e8eef8] font-sans overflow-x-hidden selection:bg-[#2060c8] selection:text-white">
@@ -124,24 +113,45 @@ export default function Home() {
       <section ref={videoRef} className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-20 gap-10" 
         style={{ background: 'linear-gradient(180deg, #050f20 0%, #020810 100%)' }}>
         
-        <div className="relative w-full max-w-[820px] aspect-[16/9] rounded-lg overflow-hidden animate-fade-up group" 
-          style={{
-            boxShadow: '0 0 80px rgba(32,96,200,0.25), 0 0 0 1px rgba(32,96,200,0.2)',
-            animationDelay: '0.3s'
-          }}>
-          
-          {/* Simulated Video Placeholder */}
-          <div 
-            className="absolute inset-0 flex flex-col items-center justify-center gap-4 cursor-pointer transition-colors duration-300 z-10"
-            style={{ background: 'linear-gradient(135deg, #040d1c, #071528)' }}
-            onClick={() => setStarted(true)}
-          >
-            <div className="w-[72px] h-[72px] rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[rgba(32,96,200,0.4)]" 
-              style={{ background: 'rgba(32,96,200,0.2)', border: '1.5px solid rgba(32,96,200,0.5)' }}>
-              <Play className="text-[#e8eef8] w-8 h-8 ml-1 fill-current" />
-            </div>
-            <span className="text-[0.78rem] tracking-[0.2em] uppercase text-[#8aa4c8] opacity-60">Watch Now</span>
+        <div className="relative w-full max-w-[820px] animate-fade-up group" style={{ animationDelay: '0.3s' }}>
+          <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden" 
+            style={{
+              boxShadow: '0 0 80px rgba(32,96,200,0.25), 0 0 0 1px rgba(32,96,200,0.2)'
+            }}>
+            
+            {/* Simulated Video Placeholder */}
+            {!started && (
+              <div 
+                className="absolute inset-0 flex flex-col items-center justify-center gap-4 cursor-pointer transition-colors duration-300 z-10"
+                style={{ background: 'linear-gradient(135deg, #040d1c, #071528)' }}
+                onClick={() => setStarted(true)}
+              >
+                <div className="w-[72px] h-[72px] rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[rgba(32,96,200,0.4)]" 
+                  style={{ background: 'rgba(32,96,200,0.2)', border: '1.5px solid rgba(32,96,200,0.5)' }}>
+                  <Play className="text-[#e8eef8] w-8 h-8 ml-1 fill-current" />
+                </div>
+                <span className="text-[0.78rem] tracking-[0.2em] uppercase text-[#8aa4c8] opacity-60">Watch Now</span>
+              </div>
+            )}
+            {started && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-10 text-[#8aa4c8] text-sm tracking-widest uppercase">
+                [ Video is playing... ]
+              </div>
+            )}
           </div>
+          
+          {/* Progress Bar under video */}
+          {started && !unlocked && (
+            <div className="w-full h-1 mt-4 bg-[rgba(32,96,200,0.1)] rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-[#2060c8] to-[#c8a96e] transition-all duration-1000 ease-linear shadow-[0_0_10px_rgba(200,169,110,0.5)]"
+                style={{ width: `${progressPercentage}%` }}
+              />
+            </div>
+          )}
+          {unlocked && (
+            <div className="w-full h-1 mt-4 bg-gradient-to-r from-[#2060c8] to-[#c8a96e] rounded-full shadow-[0_0_10px_rgba(200,169,110,0.5)]" />
+          )}
         </div>
 
         {/* CTA BOX */}
