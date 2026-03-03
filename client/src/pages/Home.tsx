@@ -298,7 +298,7 @@ export default function Home() {
                 relative inline-flex items-center gap-3 px-12 py-[18px] rounded
                 font-sans text-[0.95rem] font-medium tracking-[0.08em] uppercase
                 text-[#e8eef8] overflow-hidden transition-all duration-400
-                ${!unlocked ? 'opacity-25 cursor-not-allowed' : 'hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(32,96,200,0.55)] cursor-pointer btn-shimmer pulse-btn'}
+                ${!unlocked ? 'opacity-25 cursor-not-allowed' : 'hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(32,96,200,0.55)] cursor-pointer btn-shimmer pulse-btn unlocked-animation'}
               `}
               style={{
                 background: 'linear-gradient(135deg, #1a4080, #2060c8)',
@@ -309,6 +309,12 @@ export default function Home() {
               {!unlocked ? <Lock className="w-4 h-4" /> : <ShieldCheck className="w-5 h-5 text-[#e8eef8]" />}
               I Want VIP Access Now
             </button>
+            
+            {started && !unlocked && (
+              <div className="absolute left-1/2 -translate-x-1/2 -bottom-8 text-[0.65rem] tracking-[0.2em] text-[#8aa4c8] opacity-70 whitespace-nowrap animate-fade-up">
+                VIDEO FINISHES IN: <span className="font-mono text-[#c8a96e] text-[0.75rem]">{timeStr}</span>
+              </div>
+            )}
           </div>
 
         </div>
