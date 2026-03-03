@@ -293,6 +293,7 @@ export default function Home() {
             
             <button 
               disabled={!unlocked}
+              onClick={() => window.location.href = 'https://t.me/code88protocol'}
               className={`
                 w-full relative inline-flex justify-center items-center gap-2 sm:gap-3 py-[16px] sm:py-[18px] rounded
                 font-sans text-[0.85rem] sm:text-[0.95rem] font-medium tracking-[0.05em] sm:tracking-[0.08em] uppercase
