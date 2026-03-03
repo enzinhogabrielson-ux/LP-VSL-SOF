@@ -241,11 +241,11 @@ export default function Home() {
                 style={{ background: 'rgba(4, 13, 28, 0.4)', backdropFilter: 'blur(4px)' }}
                 onClick={handleUnmuteAndPlay}
               >
-                <div className="w-[80px] h-[80px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-[rgba(32,96,200,0.6)]" 
+                <div className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-[rgba(32,96,200,0.6)]" 
                   style={{ background: 'rgba(32,96,200,0.8)', border: '2px solid rgba(255,255,255,0.8)', boxShadow: '0 0 30px rgba(32,96,200,0.5)' }}>
-                  <Play className="text-white w-10 h-10 ml-1 fill-current" />
+                  <Play className="text-white w-8 h-8 sm:w-10 sm:h-10 ml-1 fill-current" />
                 </div>
-                <span className="text-[0.85rem] font-bold tracking-[0.2em] uppercase text-white bg-black/40 px-4 py-1.5 rounded-full backdrop-blur-md">
+                <span className="text-[0.7rem] sm:text-[0.85rem] font-bold tracking-[0.15em] sm:tracking-[0.2em] uppercase text-white bg-black/40 px-4 py-1.5 rounded-full backdrop-blur-md">
                   Click to Unmute & Watch
                 </span>
               </div>
@@ -272,8 +272,8 @@ export default function Home() {
         </div>
 
         {/* CTA BOX */}
-        <div className="text-center animate-fade-up" style={{ animationDelay: '0.5s' }}>
-          <p className="text-[0.72rem] tracking-[0.3em] uppercase mb-5 transition-all duration-700" 
+        <div className="text-center animate-fade-up w-full px-2" style={{ animationDelay: '0.5s' }}>
+          <p className="text-[0.65rem] sm:text-[0.72rem] tracking-[0.2em] sm:tracking-[0.3em] uppercase mb-5 transition-all duration-700" 
             style={{
               color: unlocked ? '#c8a96e' : '#8aa4c8',
               opacity: unlocked ? 1 : (started ? 0.8 : 0.5),
@@ -282,7 +282,7 @@ export default function Home() {
             {unlocked ? "You are one step away from changing everything." : "Wait for the video to finish before continuing"}
           </p>
 
-          <div className="relative inline-block">
+          <div className="relative inline-block w-full max-w-[280px] sm:max-w-[320px]">
             {/* Progress Ring */}
             <div className="absolute -inset-[6px] pointer-events-none" style={{ display: started && !unlocked ? 'block' : 'none' }}>
               <svg viewBox="0 0 300 60" preserveAspectRatio="none" className="w-full h-full">
@@ -297,8 +297,8 @@ export default function Home() {
             <button 
               disabled={!unlocked}
               className={`
-                relative inline-flex items-center gap-3 px-12 py-[18px] rounded
-                font-sans text-[0.95rem] font-medium tracking-[0.08em] uppercase
+                w-full relative inline-flex justify-center items-center gap-2 sm:gap-3 py-[16px] sm:py-[18px] rounded
+                font-sans text-[0.85rem] sm:text-[0.95rem] font-medium tracking-[0.05em] sm:tracking-[0.08em] uppercase
                 text-[#e8eef8] overflow-hidden transition-all duration-400
                 ${!unlocked ? 'opacity-25 cursor-not-allowed' : 'hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(32,96,200,0.55)] cursor-pointer btn-shimmer pulse-btn unlocked-animation'}
               `}
@@ -308,13 +308,13 @@ export default function Home() {
               }}
             >
               <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.08), transparent)' }} />
-              {!unlocked ? <Lock className="w-4 h-4" /> : <ShieldCheck className="w-5 h-5 text-[#e8eef8]" />}
-              I Want VIP Access Now
+              {!unlocked ? <Lock className="w-4 h-4 shrink-0" /> : <ShieldCheck className="w-5 h-5 text-[#e8eef8] shrink-0" />}
+              <span>I Want VIP Access Now</span>
             </button>
             
             {started && !unlocked && remaining <= 45 && (
-              <div className="absolute left-1/2 -translate-x-1/2 -bottom-8 text-[0.65rem] tracking-[0.2em] text-[#8aa4c8] opacity-70 whitespace-nowrap animate-fade-up">
-                VIDEO FINISHES IN: <span className="font-mono text-[#c8a96e] text-[0.75rem]">{timeStr}</span>
+              <div className="absolute left-1/2 -translate-x-1/2 -bottom-8 text-[0.65rem] sm:text-[0.7rem] tracking-[0.15em] sm:tracking-[0.2em] text-[#8aa4c8] opacity-70 whitespace-nowrap animate-fade-up">
+                BUTTON WILL UNLOCK IN: <span className="font-mono text-[#c8a96e] text-[0.75rem] sm:text-[0.8rem]">{timeStr}</span>
               </div>
             )}
           </div>
