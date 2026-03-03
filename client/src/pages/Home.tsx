@@ -175,14 +175,9 @@ export default function Home() {
             Sofia de Luca · Restricted Access
           </div>
           
-          <h1 className="font-serif font-bold leading-[1.1] animate-fade-up max-w-[900px] mx-auto tracking-tight flex flex-col gap-3 md:gap-4" 
+          <h1 className="font-sans font-extrabold leading-[1.1] animate-fade-up max-w-[900px] mx-auto tracking-tight flex flex-col gap-3 md:gap-4" 
             style={{ animationDelay: '0.4s' }}>
-            <span className="text-[clamp(2.5rem,5vw,5.5rem)]" style={{
-              background: 'linear-gradient(110deg, #e8eef8 0%, #8aa4c8 45%, #e0c388 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>
+            <span className="text-[clamp(2.5rem,5vw,5.5rem)] text-white drop-shadow-sm">
               $10,000 in your bank account...
             </span>
             <span className="text-[clamp(1.5rem,3vw,3rem)] font-light tracking-normal opacity-90" style={{
