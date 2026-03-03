@@ -87,7 +87,7 @@ export default function Home() {
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
             </span>
             <p className="text-white text-[0.7rem] sm:text-xs md:text-sm font-extrabold tracking-[0.15em] sm:tracking-[0.25em] uppercase text-center">
-              AVISO: NÃO FECHE ESTA PÁGINA · VISUALIZAÇÃO ÚNICA
+              WARNING: DO NOT CLOSE THIS PAGE · SINGLE VIEW ONLY
             </p>
           </div>
         </div>
