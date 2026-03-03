@@ -312,7 +312,7 @@ export default function Home() {
               I Want VIP Access Now
             </button>
             
-            {started && !unlocked && (
+            {started && !unlocked && remaining <= 45 && (
               <div className="absolute left-1/2 -translate-x-1/2 -bottom-8 text-[0.65rem] tracking-[0.2em] text-[#8aa4c8] opacity-70 whitespace-nowrap animate-fade-up">
                 VIDEO FINISHES IN: <span className="font-mono text-[#c8a96e] text-[0.75rem]">{timeStr}</span>
               </div>
