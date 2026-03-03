@@ -220,9 +220,6 @@ export default function Home() {
             </button>
           </div>
 
-          <div className={`text-[0.75rem] tracking-[0.15em] text-[#c8a96e] mt-3.5 transition-opacity duration-500 ${unlocked ? 'opacity-0' : 'opacity-70'}`}>
-            Button available in <span>{timeStr}</span>
-          </div>
         </div>
       </section>
 
