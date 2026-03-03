@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Play, Lock, ShieldCheck } from "lucide-react";
+import Player from "@vimeo/player";
 
 const Particles = () => {
   const particles = useMemo(() => {
@@ -32,6 +33,23 @@ export default function Home() {
   const [remaining, setRemaining] = useState(90);
   const [unlocked, setUnlocked] = useState(false);
   const videoRef = useRef<HTMLElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const playerRef = useRef<Player | null>(null);
+
+  useEffect(() => {
+    if (iframeRef.current && !playerRef.current) {
+      playerRef.current = new Player(iframeRef.current);
+    }
+  }, []);
+
+  const handleUnmuteAndPlay = async () => {
+    if (playerRef.current) {
+      await playerRef.current.setVolume(1);
+      await playerRef.current.setCurrentTime(0);
+      await playerRef.current.play();
+    }
+    setStarted(true);
+  };
   
   const m = Math.floor(remaining / 60);
   const sec = remaining % 60;
@@ -161,23 +179,40 @@ export default function Home() {
               boxShadow: '0 0 80px rgba(32,96,200,0.25), 0 0 0 1px rgba(32,96,200,0.2)'
             }}>
             
-            {/* Simulated Video Placeholder */}
+            {/* Embedded Vimeo Video */}
+            <div className="relative w-full aspect-[16/9] z-10 bg-black">
+              <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
+                <iframe 
+                  ref={iframeRef}
+                  src="https://player.vimeo.com/video/1170075786?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;muted=1" 
+                  frameBorder="0" 
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                  referrerPolicy="strict-origin-when-cross-origin" 
+                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} 
+                  title="VSL"
+                />
+              </div>
+            </div>
+            
+            {/* Play Overlay */}
             {!started && (
               <div 
-                className="absolute inset-0 flex flex-col items-center justify-center gap-4 cursor-pointer transition-colors duration-300 z-10"
-                style={{ background: 'linear-gradient(135deg, #040d1c, #071528)' }}
-                onClick={() => setStarted(true)}
+                className="absolute inset-0 flex flex-col items-center justify-center gap-4 cursor-pointer transition-colors duration-300 z-20"
+                style={{ background: 'rgba(4, 13, 28, 0.4)', backdropFilter: 'blur(2px)' }}
+                onClick={handleUnmuteAndPlay}
               >
-                <div className="w-[72px] h-[72px] rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[rgba(32,96,200,0.4)]" 
-                  style={{ background: 'rgba(32,96,200,0.2)', border: '1.5px solid rgba(32,96,200,0.5)' }}>
-                  <Play className="text-[#e8eef8] w-8 h-8 ml-1 fill-current" />
+                <div className="w-[80px] h-[80px] rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[rgba(32,96,200,0.6)]" 
+                  style={{ background: 'rgba(32,96,200,0.8)', border: '2px solid rgba(255,255,255,0.8)', boxShadow: '0 0 30px rgba(32,96,200,0.5)' }}>
+                  <Play className="text-white w-10 h-10 ml-1 fill-current" />
                 </div>
-                <span className="text-[0.78rem] tracking-[0.2em] uppercase text-[#8aa4c8] opacity-60">Watch Now</span>
+                <span className="text-[0.85rem] font-bold tracking-[0.2em] uppercase text-white bg-black/40 px-4 py-1.5 rounded-full backdrop-blur-md">
+                  Click to Unmute & Watch
+                </span>
               </div>
             )}
             {started && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-10 text-[#8aa4c8] text-sm tracking-widest uppercase">
-                [ Video is playing... ]
+              <div className="absolute inset-0 pointer-events-none z-20">
+                {/* Transparent overlay just to catch clicks if needed, but lets video through */}
               </div>
             )}
           </div>
