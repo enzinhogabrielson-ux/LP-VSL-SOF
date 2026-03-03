@@ -80,14 +80,14 @@ export default function Home() {
         </div>
         
         {/* WARNING ALERT */}
-        <div className="absolute top-0 w-full animate-fade-up z-20">
-          <div className="bg-gradient-to-r from-transparent via-[#ff1100]/20 to-transparent border-b border-[#ff1100]/30 py-2.5 flex items-center justify-center gap-3 backdrop-blur-md">
-            <span className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff1100] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff1100]"></span>
+        <div className="absolute top-0 w-full animate-fade-down z-50">
+          <div className="bg-[#cc0000] py-3 px-4 flex items-center justify-center gap-3 shadow-[0_4px_30px_rgba(204,0,0,0.5)]">
+            <span className="flex h-2.5 w-2.5 relative shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-90"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
             </span>
-            <p className="text-[#ff4444] text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase">
-              WARNING: DO NOT CLOSE THIS PAGE · SINGLE VIEW ONLY
+            <p className="text-white text-[0.7rem] sm:text-xs md:text-sm font-extrabold tracking-[0.15em] sm:tracking-[0.25em] uppercase text-center">
+              AVISO: NÃO FECHE ESTA PÁGINA · VISUALIZAÇÃO ÚNICA
             </p>
           </div>
         </div>
@@ -97,18 +97,24 @@ export default function Home() {
             Sofia de Luca · Restricted Access
           </div>
           
-          <h1 className="font-serif text-[clamp(2.2rem,4.5vw,4.5rem)] font-bold leading-[1.3] animate-fade-up max-w-[800px] mx-auto" 
-            style={{
+          <h1 className="font-serif font-bold leading-[1.1] animate-fade-up max-w-[900px] mx-auto tracking-tight flex flex-col gap-3 md:gap-4" 
+            style={{ animationDelay: '0.4s' }}>
+            <span className="text-[clamp(2.5rem,5vw,5.5rem)]" style={{
               background: 'linear-gradient(110deg, #e8eef8 0%, #8aa4c8 45%, #e0c388 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              animationDelay: '0.4s'
             }}>
-            $10,000 in your bank<br/>
-            account...<br/>
-            In 90 seconds, I'll hand it to<br/>
-            you.
+              $10,000 in your bank account...
+            </span>
+            <span className="text-[clamp(1.5rem,3vw,3rem)] font-light tracking-normal opacity-90" style={{
+              background: 'linear-gradient(110deg, #8aa4c8 0%, #e8eef8 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>
+              In 90 seconds, I'll hand it to you.
+            </span>
           </h1>
           
           <p className="mt-10 text-[clamp(0.95rem,1.5vw,1.1rem)] text-[#8aa4c8] font-light max-w-[600px] leading-[2] opacity-80 animate-fade-up mx-auto" style={{ animationDelay: '0.65s' }}>
