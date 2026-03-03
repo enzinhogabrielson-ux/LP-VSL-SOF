@@ -50,6 +50,7 @@ export default function Home() {
           if (entry.isIntersecting && !started) {
             setStarted(true);
             if (playerRef.current) {
+              playerRef.current.play().catch(e => console.error("Vimeo auto-play error:", e));
               playerRef.current.setVolume(1).catch(err => {
                 console.error("Vimeo auto-unmute error:", err);
                 // Fallback: browsers might block autoplay with sound
@@ -82,6 +83,7 @@ export default function Home() {
     
     if (playerRef.current) {
       try {
+        await playerRef.current.play();
         await playerRef.current.setVolume(1);
       } catch (err) {
         console.error("Vimeo playback error:", err);
@@ -223,7 +225,7 @@ export default function Home() {
                 <iframe 
                   id="vimeo-player"
                   ref={iframeRef}
-                  src="https://player.vimeo.com/video/1170075786?autoplay=1&muted=1&controls=0&loop=1&title=0&byline=0&portrait=0&background=1" 
+                  src="https://player.vimeo.com/video/1170075786?autoplay=0&muted=1&controls=0&loop=1&title=0&byline=0&portrait=0" 
                   frameBorder="0" 
                   allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
                   style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }} 
