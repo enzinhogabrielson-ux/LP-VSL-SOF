@@ -177,8 +177,8 @@ export default function Home() {
           
           <h1 className="font-sans font-extrabold leading-[1.1] animate-fade-up max-w-[900px] mx-auto tracking-tight flex flex-col gap-3 md:gap-4" 
             style={{ animationDelay: '0.4s' }}>
-            <span className="text-[clamp(2.5rem,5vw,5.5rem)] text-white drop-shadow-sm">
-              $10,000 in your bank account...
+            <span className="text-[clamp(2.5rem,5vw,5.5rem)] text-white drop-shadow-sm leading-tight">
+              $10,000 in your<br /> bank account...
             </span>
             <span className="text-[clamp(1.5rem,3vw,3rem)] font-light tracking-normal opacity-90" style={{
               background: 'linear-gradient(110deg, #8aa4c8 0%, #e8eef8 100%)',
