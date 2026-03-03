@@ -97,7 +97,7 @@ export default function Home() {
             Sofia de Luca · Restricted Access
           </div>
           
-          <h1 className="font-serif text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[1.2] animate-fade-up max-w-[800px] mx-auto" 
+          <h1 className="font-serif text-[clamp(2.2rem,4.5vw,4.5rem)] font-bold leading-[1.3] animate-fade-up max-w-[800px] mx-auto" 
             style={{
               background: 'linear-gradient(110deg, #e8eef8 0%, #8aa4c8 45%, #e0c388 100%)',
               WebkitBackgroundClip: 'text',
@@ -105,12 +105,14 @@ export default function Home() {
               backgroundClip: 'text',
               animationDelay: '0.4s'
             }}>
-            $10,000 in your bank<br className="hidden md:block"/> account...<br/>
-            In 90 seconds, I'll hand it to<br className="hidden md:block"/> you.
+            $10,000 in your bank<br/>
+            account...<br/>
+            In 90 seconds, I'll hand it to<br/>
+            you.
           </h1>
           
-          <p className="mt-8 text-[clamp(0.95rem,1.5vw,1.15rem)] text-[#8aa4c8] font-light max-w-[650px] leading-[1.8] opacity-70 animate-fade-up mx-auto" style={{ animationDelay: '0.65s' }}>
-            You are about to access something most people will never see. Watch<br className="hidden md:block" /> the full video before making any decision.
+          <p className="mt-10 text-[clamp(0.95rem,1.5vw,1.1rem)] text-[#8aa4c8] font-light max-w-[600px] leading-[2] opacity-80 animate-fade-up mx-auto" style={{ animationDelay: '0.65s' }}>
+            You are about to access something most people will never see. Watch<br className="hidden sm:block" /> the full video before making any decision.
           </p>
           
           <div className="w-[50px] h-[1px] my-12 animate-fade-up mx-auto" 
