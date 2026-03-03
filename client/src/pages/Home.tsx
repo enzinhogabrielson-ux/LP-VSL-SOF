@@ -37,9 +37,27 @@ export default function Home() {
   const sec = remaining % 60;
   const timeStr = `${m}:${sec < 10 ? '0' : ''}${sec}`;
   
+  // Calculate manipulated progress for optical illusion effect
+  const elapsed = 90 - remaining;
+  let fakeProgressPercentage = 0;
+  
+  if (elapsed <= 30) {
+    // Rise to 90% very fast (first 30 seconds)
+    fakeProgressPercentage = (elapsed / 30) * 90;
+  } else if (elapsed <= 35) {
+    // Glitch effect: pull back to 40% quickly
+    fakeProgressPercentage = 90 - ((elapsed - 30) / 5) * 50;
+  } else if (elapsed <= 45) {
+    // Hover around 40-45% to build tension
+    fakeProgressPercentage = 40 + ((elapsed - 35) / 10) * 5;
+  } else {
+    // Slowly resume to 100% for the rest of the duration
+    fakeProgressPercentage = 45 + ((elapsed - 45) / 45) * 55;
+  }
+  
   // Perimeter for SVG rect ring: 2 * (width + height) = 2 * (296 + 56)
   const perim = 2 * (296 + 56);
-  const progress = ((90 - remaining) / 90) * perim;
+  const progress = (fakeProgressPercentage / 100) * perim;
   
   useEffect(() => {
     if (!started || remaining <= 0) return;
@@ -55,7 +73,7 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [started, remaining]);
 
-  const progressPercentage = ((90 - remaining) / 90) * 100;
+  const progressPercentage = fakeProgressPercentage;
 
   return (
     <div className="bg-[#030d1a] min-h-screen text-[#e8eef8] font-sans overflow-x-hidden selection:bg-[#2060c8] selection:text-white">
