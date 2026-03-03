@@ -80,39 +80,42 @@ export default function Home() {
         </div>
         
         {/* WARNING ALERT */}
-        <div className="absolute top-6 w-full max-w-2xl px-4 animate-fade-up">
-          <div className="bg-[#ff1100]/10 border border-[#ff1100]/40 rounded-lg p-3 flex items-center justify-center gap-3 backdrop-blur-sm shadow-[0_0_20px_rgba(255,17,0,0.15)]">
+        <div className="absolute top-0 w-full animate-fade-up z-20">
+          <div className="bg-gradient-to-r from-transparent via-[#ff1100]/20 to-transparent border-b border-[#ff1100]/30 py-2.5 flex items-center justify-center gap-3 backdrop-blur-md">
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff1100] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff1100]"></span>
             </span>
-            <p className="text-[#ff4444] text-[0.75rem] md:text-sm font-bold tracking-[0.2em] uppercase">
+            <p className="text-[#ff4444] text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase">
               WARNING: DO NOT CLOSE THIS PAGE · SINGLE VIEW ONLY
             </p>
           </div>
         </div>
         
-        <div className="text-[0.7rem] tracking-[0.35em] uppercase text-[#c8a96e] opacity-85 mb-7 mt-12 animate-fade-up" style={{ animationDelay: '0.2s' }}>
-          Sofia de Luca · Restricted Access
+        <div className="flex flex-col items-center justify-center pt-32 pb-12 w-full max-w-[1000px] mx-auto text-center px-4">
+          <div className="text-[0.65rem] tracking-[0.5em] uppercase text-[#c8a96e] opacity-80 mb-6 animate-fade-up" style={{ animationDelay: '0.2s' }}>
+            Sofia de Luca · Restricted Access
+          </div>
+          
+          <h1 className="font-serif text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[1.2] animate-fade-up max-w-[800px] mx-auto" 
+            style={{
+              background: 'linear-gradient(110deg, #e8eef8 0%, #8aa4c8 45%, #e0c388 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              animationDelay: '0.4s'
+            }}>
+            $10,000 in your bank<br className="hidden md:block"/> account...<br/>
+            In 90 seconds, I'll hand it to<br className="hidden md:block"/> you.
+          </h1>
+          
+          <p className="mt-8 text-[clamp(0.95rem,1.5vw,1.15rem)] text-[#8aa4c8] font-light max-w-[650px] leading-[1.8] opacity-70 animate-fade-up mx-auto" style={{ animationDelay: '0.65s' }}>
+            You are about to access something most people will never see. Watch<br className="hidden md:block" /> the full video before making any decision.
+          </p>
+          
+          <div className="w-[50px] h-[1px] my-12 animate-fade-up mx-auto" 
+            style={{ background: 'linear-gradient(90deg, transparent, #c8a96e, transparent)', animationDelay: '0.8s' }} />
         </div>
-        
-        <h1 className="font-serif text-[clamp(2.2rem,5.5vw,4.5rem)] font-bold leading-[1.12] max-w-[900px] animate-fade-up" 
-          style={{
-            background: 'linear-gradient(135deg, #e8eef8 0%, #8aa4c8 50%, #c8a96e 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            animationDelay: '0.4s'
-          }}>
-          $10,000 in your bank account...<br/><em className="not-italic font-normal">In 90 seconds, I'll hand it to you.</em>
-        </h1>
-        
-        <p className="mt-8 text-[clamp(1rem,2vw,1.25rem)] text-[#8aa4c8] font-light max-w-[600px] leading-[1.7] opacity-90 animate-fade-up" style={{ animationDelay: '0.65s' }}>
-          You are about to access something most people will never see. Watch the full video before making any decision.
-        </p>
-        
-        <div className="w-[60px] h-[1px] my-9 mx-auto animate-fade-up" 
-          style={{ background: 'linear-gradient(90deg, transparent, #c8a96e, transparent)', animationDelay: '0.8s' }} />
         
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-35 animate-fade-up" style={{ animationDelay: '1.4s' }}>
           <div className="w-[22px] h-[34px] border-[1.5px] border-[#8aa4c8] rounded-[12px] flex justify-center pt-[6px]">
