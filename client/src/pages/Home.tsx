@@ -163,7 +163,7 @@ export default function Home() {
       />
       
       {/* SINGLE SECTION: HERO + VIDEO */}
-      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-12 text-center" 
+      <section className="relative z-10 min-h-screen flex flex-col items-center justify-start px-4 pt-[44px] sm:pt-[54px] pb-4 text-center" 
         style={{ 
           background: 'radial-gradient(ellipse 120% 60% at 50% 0%, rgba(32,96,200,0.18) 0%, transparent 70%), linear-gradient(180deg, #030d1a 0%, #050f20 100%)' 
         }}>
@@ -189,13 +189,13 @@ export default function Home() {
           </div>
         </div>
         
-        <div className="flex flex-col items-center justify-center pt-24 pb-8 w-full max-w-[1000px] mx-auto text-center px-2 animate-fade-up" style={{ animationDelay: '0.2s' }}>
+        <div className="flex flex-col items-center justify-center pb-6 w-full max-w-[1000px] mx-auto text-center px-2 animate-fade-up" style={{ animationDelay: '0.2s' }}>
           
-          <div className="text-[0.65rem] tracking-[0.5em] uppercase text-[#c8a96e] opacity-80 mb-6 animate-fade-up" style={{ animationDelay: '0.2s' }}>
+          <div className="text-[0.65rem] tracking-[0.5em] uppercase text-[#c8a96e] opacity-80 mb-4 animate-fade-up" style={{ animationDelay: '0.2s' }}>
             Sofia de Luca · Restricted Access
           </div>
           
-          <h1 className="font-sans font-extrabold leading-[1.1] animate-fade-up max-w-[900px] mx-auto tracking-tight flex flex-col gap-3 md:gap-4" 
+          <h1 className="font-sans font-extrabold leading-[1.1] animate-fade-up max-w-[900px] mx-auto tracking-tight flex flex-col gap-2 md:gap-3" 
             style={{ animationDelay: '0.4s' }}>
             <span className="text-[clamp(2.5rem,5vw,5.5rem)] text-[#facc15] uppercase drop-shadow-sm leading-tight">
               $10,000 IN YOUR<br /> BANK ACCOUNT...
@@ -208,7 +208,7 @@ export default function Home() {
         </div>
         
         {/* VIDEO PLAYER */}
-        <div className="relative w-full max-w-[820px] animate-fade-up group mb-10" style={{ animationDelay: '0.4s' }}>
+        <div className="relative w-full max-w-[820px] animate-fade-up group mb-4" style={{ animationDelay: '0.4s' }}>
           <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden" 
             style={{
               boxShadow: '0 0 80px rgba(32,96,200,0.25), 0 0 0 1px rgba(32,96,200,0.2)'
@@ -278,7 +278,7 @@ export default function Home() {
 
         {/* CTA BOX */}
         <div className="text-center animate-fade-up w-full px-2" style={{ animationDelay: '0.6s' }}>
-          <p className="text-[0.65rem] sm:text-[0.72rem] tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-5 transition-all duration-700" 
+          <p className="text-[0.65rem] sm:text-[0.72rem] tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-4 transition-all duration-700" 
             style={{
               color: unlocked ? '#c8a96e' : '#8aa4c8',
               opacity: unlocked ? 1 : (started ? 0.8 : 0.5),
