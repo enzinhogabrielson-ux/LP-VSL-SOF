@@ -60,17 +60,40 @@ export default function Home() {
       player.on('volumechange', (data) => {
         setIsMuted(data.volume === 0);
       });
-
-      // Tenta autoplay com som. Alguns navegadores podem bloquear.
-      player.setVolume(1).then(() => {
-        player.play().catch(e => {
-          console.log("Autoplay com som bloqueado pelo navegador", e);
-          // Fallback para mudo se bloqueado
-          player.setVolume(0).then(() => player.play());
-        });
-      });
     }
   }, []);
+
+  // Tenta dar play com som assim que o usuário scrollar ou tocar na tela
+  useEffect(() => {
+    const handleInteraction = () => {
+      if (!started && playerRef.current) {
+        playerRef.current.setVolume(1).then(() => {
+          playerRef.current.play().then(() => {
+            setIsMuted(false);
+            setStarted(true);
+          }).catch(e => {
+            console.log("Play com som bloqueado mesmo após interação", e);
+            // Fallback para mudo se ainda assim bloquear
+            playerRef.current?.setVolume(0).then(() => {
+              playerRef.current?.play();
+              setStarted(true);
+            });
+          });
+        });
+        
+        window.removeEventListener('scroll', handleInteraction);
+        window.removeEventListener('touchstart', handleInteraction);
+      }
+    };
+
+    window.addEventListener('scroll', handleInteraction, { passive: true });
+    window.addEventListener('touchstart', handleInteraction, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleInteraction);
+      window.removeEventListener('touchstart', handleInteraction);
+    };
+  }, [started]);
 
   const togglePlayPause = (e: React.MouseEvent) => {
     e.preventDefault();
