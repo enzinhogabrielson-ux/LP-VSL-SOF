@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Play, Lock, Unlock, ShieldCheck } from "lucide-react";
+import { Play, Pause, Lock, Unlock, SkipForward, Volume2, Settings, Maximize } from "lucide-react";
 import Player from "@vimeo/player";
 
 const Particles = () => {
@@ -30,109 +30,67 @@ const Particles = () => {
 
 export default function Home() {
   const [started, setStarted] = useState(false);
-  const [remaining, setRemaining] = useState(90);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
-  const videoRef = useRef<HTMLElement>(null);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const playerRef = useRef<Player | null>(null);
 
   useEffect(() => {
     if (iframeRef.current && !playerRef.current) {
-      playerRef.current = new Player(iframeRef.current);
+      const player = new Player(iframeRef.current);
+      playerRef.current = player;
+      
+      player.getDuration().then(d => setDuration(d)).catch(console.error);
+
+      player.on('timeupdate', (data) => {
+        setCurrentTime(data.seconds);
+        if (data.duration > 0 && data.duration - data.seconds <= 15) {
+          setUnlocked(true);
+        }
+      });
+
+      player.on('play', () => setIsPlaying(true));
+      player.on('pause', () => setIsPlaying(false));
     }
   }, []);
 
-  // Intersection Observer to auto-play and unmute when video comes into view
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !started) {
-            setStarted(true);
-            if (playerRef.current) {
-              playerRef.current.play().catch(e => console.error("Vimeo auto-play error:", e));
-              playerRef.current.setVolume(1).catch(err => {
-                console.error("Vimeo auto-unmute error:", err);
-                // Fallback: browsers might block autoplay with sound
-                // In a real scenario, this is where we'd show the unmute button again if it fails
-              });
-            }
-          }
-        });
-      },
-      { threshold: 0.5 } // Trigger when 50% of the video section is visible
-    );
-
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
-    }
-
-    return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current);
-      }
-    };
-  }, [started]);
-
-  const handleUnmuteAndPlay = async (e: React.MouseEvent) => {
+  const handleInitialPlay = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     
-    // Esconder o overlay imediatamente
     setStarted(true);
     
     if (playerRef.current) {
       try {
-        await playerRef.current.play();
         await playerRef.current.setVolume(1);
+        await playerRef.current.play();
       } catch (err) {
         console.error("Vimeo playback error:", err);
       }
     }
   };
-  
-  const m = Math.floor(remaining / 60);
-  const sec = remaining % 60;
-  const timeStr = `${m}:${sec < 10 ? '0' : ''}${sec}`;
-  
-  // Calculate manipulated progress for optical illusion effect
-  const elapsed = 90 - remaining;
-  let fakeProgressPercentage = 0;
-  
-  if (elapsed <= 30) {
-    // Rise to 90% very fast (first 30 seconds)
-    fakeProgressPercentage = (elapsed / 30) * 90;
-  } else if (elapsed <= 35) {
-    // Glitch effect: pull back to 40% quickly
-    fakeProgressPercentage = 90 - ((elapsed - 30) / 5) * 50;
-  } else if (elapsed <= 45) {
-    // Hover around 40-45% to build tension
-    fakeProgressPercentage = 40 + ((elapsed - 35) / 10) * 5;
-  } else {
-    // Slowly resume to 100% for the rest of the duration
-    fakeProgressPercentage = 45 + ((elapsed - 45) / 45) * 55;
-  }
+
+  const togglePlayPause = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!playerRef.current) return;
+    
+    if (isPlaying) {
+      playerRef.current.pause();
+    } else {
+      playerRef.current.play();
+    }
+  };
+
+  const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
   
   // Perimeter for SVG rect ring: 2 * (width + height) = 2 * (296 + 56)
   const perim = 2 * (296 + 56);
-  const progress = (fakeProgressPercentage / 100) * perim;
+  const progress = (progressPercentage / 100) * perim;
   
-  useEffect(() => {
-    if (!started || remaining <= 0) return;
-    const interval = setInterval(() => {
-      setRemaining(prev => {
-        if (prev <= 1) {
-          setUnlocked(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [started, remaining]);
-
-  const progressPercentage = fakeProgressPercentage;
-
   return (
     <div className="bg-[#030d1a] min-h-screen text-[#e8eef8] font-sans overflow-x-hidden selection:bg-[#2060c8] selection:text-white">
       <div className="noise-overlay" />
@@ -143,8 +101,8 @@ export default function Home() {
         style={{ background: 'radial-gradient(ellipse 70% 70% at 50% 50%, transparent 30%, rgba(3,13,26,0.85) 100%)' }} 
       />
       
-      {/* HERO SECTION */}
-      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-20 text-center" 
+      {/* SINGLE SECTION: HERO + VIDEO */}
+      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-12 text-center" 
         style={{ 
           background: 'radial-gradient(ellipse 120% 60% at 50% 0%, rgba(32,96,200,0.18) 0%, transparent 70%), linear-gradient(180deg, #030d1a 0%, #050f20 100%)' 
         }}>
@@ -165,52 +123,25 @@ export default function Home() {
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
             </span>
             <p className="text-white text-[0.7rem] sm:text-xs md:text-sm font-extrabold tracking-[0.15em] sm:tracking-[0.25em] uppercase text-center">
-              WARNING: DO NOT CLOSE THIS PAGE · SINGLE VIEW ONLY
+              AVISO: NÃO FECHE ESTA PÁGINA · ACESSO ÚNICO
             </p>
           </div>
         </div>
         
-        <div className="flex flex-col items-center justify-center pt-32 pb-12 w-full max-w-[1000px] mx-auto text-center px-4">
-          <div className="text-[0.65rem] tracking-[0.5em] uppercase text-[#c8a96e] opacity-80 mb-6 animate-fade-up" style={{ animationDelay: '0.2s' }}>
-            Sofia de Luca · Restricted Access
-          </div>
+        <div className="flex flex-col items-center justify-center pt-24 pb-8 w-full max-w-[1000px] mx-auto text-center px-2 animate-fade-up" style={{ animationDelay: '0.2s' }}>
           
-          <h1 className="font-sans font-extrabold leading-[1.1] animate-fade-up max-w-[900px] mx-auto tracking-tight flex flex-col gap-3 md:gap-4" 
-            style={{ animationDelay: '0.4s' }}>
-            <span className="text-[clamp(2.5rem,5vw,5.5rem)] text-white drop-shadow-sm leading-tight">
-              $10,000 in your<br /> bank account...
-            </span>
-            <span className="text-[clamp(1.5rem,3vw,3rem)] font-light tracking-normal opacity-90" style={{
-              background: 'linear-gradient(110deg, #8aa4c8 0%, #e8eef8 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>
-              In 90 seconds, I'll hand it to you.
-            </span>
+          <h1 className="font-sans font-extrabold text-[clamp(1.4rem,4vw,2.5rem)] text-[#facc15] uppercase tracking-wider leading-[1.2] mb-3 drop-shadow-md max-w-[850px] mx-auto">
+            O SEGREDO DOS PRODUTOS<br/> DE BAIXO TICKET DO<br/> HOMEM DE NOVEMBRO
           </h1>
           
-          <p className="mt-10 text-[clamp(0.95rem,1.5vw,1.1rem)] text-[#8aa4c8] font-light max-w-[600px] leading-[2] opacity-80 animate-fade-up mx-auto" style={{ animationDelay: '0.65s' }}>
-            You are about to access something most people will never see. Watch<br className="hidden sm:block" /> the full video before making any decision.
+          <p className="text-[clamp(1rem,2.5vw,1.4rem)] text-white font-normal tracking-wide max-w-[800px] mx-auto opacity-95 mb-8">
+            Reproduza esse segredo em poucos passos
           </p>
           
-          <div className="w-[50px] h-[1px] my-12 animate-fade-up mx-auto" 
-            style={{ background: 'linear-gradient(90deg, transparent, #c8a96e, transparent)', animationDelay: '0.8s' }} />
         </div>
         
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-35 animate-fade-up" style={{ animationDelay: '1.4s' }}>
-          <div className="w-[22px] h-[34px] border-[1.5px] border-[#8aa4c8] rounded-[12px] flex justify-center pt-[6px]">
-            <div className="w-[3px] h-[7px] rounded-sm bg-[#8aa4c8] animate-scroll-dot" />
-          </div>
-          <span className="text-[0.62rem] tracking-[0.25em] uppercase">Continue</span>
-        </div>
-      </section>
-
-      {/* VIDEO + CTA SECTION */}
-      <section ref={videoRef} className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-20 gap-10" 
-        style={{ background: 'linear-gradient(180deg, #050f20 0%, #020810 100%)' }}>
-        
-        <div className="relative w-full max-w-[820px] animate-fade-up group" style={{ animationDelay: '0.3s' }}>
+        {/* VIDEO PLAYER */}
+        <div className="relative w-full max-w-[820px] animate-fade-up group mb-10" style={{ animationDelay: '0.4s' }}>
           <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden" 
             style={{
               boxShadow: '0 0 80px rgba(32,96,200,0.25), 0 0 0 1px rgba(32,96,200,0.2)'
@@ -231,26 +162,36 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Play Overlay */}
+            {/* Play Overlay (Initial) */}
             {!started && (
               <div 
                 className="absolute inset-0 flex flex-col items-center justify-center gap-4 cursor-pointer z-[50]"
                 style={{ background: 'rgba(4, 13, 28, 0.4)', backdropFilter: 'blur(4px)' }}
-                onClick={handleUnmuteAndPlay}
+                onClick={handleInitialPlay}
               >
                 <div className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-[rgba(32,96,200,0.6)]" 
                   style={{ background: 'rgba(32,96,200,0.8)', border: '2px solid rgba(255,255,255,0.8)', boxShadow: '0 0 30px rgba(32,96,200,0.5)' }}>
                   <Play className="text-white w-8 h-8 sm:w-10 sm:h-10 ml-1 fill-current" />
                 </div>
                 <span className="text-[0.7rem] sm:text-[0.85rem] font-bold tracking-[0.15em] sm:tracking-[0.2em] uppercase text-white bg-black/40 px-4 py-1.5 rounded-full backdrop-blur-md">
-                  Click to Unmute & Watch
+                  Clique para Assistir
                 </span>
               </div>
             )}
             
-            {/* Click Catcher to ensure video can be interacted with after starting */}
+            {/* Click Catcher to ensure video can be interacted with for play/pause but no seeking */}
             {started && (
-              <div className="absolute inset-0 pointer-events-none z-20"></div>
+              <div 
+                className="absolute inset-0 z-20 cursor-pointer flex items-center justify-center transition-colors duration-300"
+                style={{ background: !isPlaying ? 'rgba(0,0,0,0.4)' : 'transparent' }}
+                onClick={togglePlayPause}
+              >
+                {!isPlaying && (
+                  <div className="w-[60px] h-[60px] rounded-full flex items-center justify-center bg-white/20 backdrop-blur-sm animate-fade-up">
+                    <Play className="text-white w-8 h-8 ml-1 fill-current" />
+                  </div>
+                )}
+              </div>
             )}
           </div>
           
@@ -258,7 +199,7 @@ export default function Home() {
           {started && !unlocked && (
             <div className="w-full h-1 mt-4 bg-[rgba(32,96,200,0.1)] rounded-full overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-[#2060c8] to-[#c8a96e] transition-all duration-1000 ease-linear shadow-[0_0_10px_rgba(200,169,110,0.5)]"
+                className="h-full bg-gradient-to-r from-[#2060c8] to-[#c8a96e] transition-all duration-300 ease-linear shadow-[0_0_10px_rgba(200,169,110,0.5)]"
                 style={{ width: `${progressPercentage}%` }}
               />
             </div>
@@ -269,14 +210,14 @@ export default function Home() {
         </div>
 
         {/* CTA BOX */}
-        <div className="text-center animate-fade-up w-full px-2" style={{ animationDelay: '0.5s' }}>
-          <p className="text-[0.65rem] sm:text-[0.72rem] tracking-[0.2em] sm:tracking-[0.3em] uppercase mb-5 transition-all duration-700" 
+        <div className="text-center animate-fade-up w-full px-2" style={{ animationDelay: '0.6s' }}>
+          <p className="text-[0.65rem] sm:text-[0.72rem] tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-5 transition-all duration-700" 
             style={{
               color: unlocked ? '#c8a96e' : '#8aa4c8',
               opacity: unlocked ? 1 : (started ? 0.8 : 0.5),
-              letterSpacing: unlocked ? '.1em' : '.3em'
+              letterSpacing: unlocked ? '.1em' : '.2em'
             }}>
-            {unlocked ? "You are one step away from changing everything." : "Wait for the video to finish before continuing"}
+            {unlocked ? "Você está a um passo de mudar tudo." : "Assista ao vídeo até o final para liberar seu acesso"}
           </p>
 
           <div className="relative inline-block w-full max-w-[280px] sm:max-w-[320px]">
@@ -286,7 +227,7 @@ export default function Home() {
                 <rect x="2" y="2" width="296" height="56" rx="4" fill="none" strokeWidth="2" stroke="#c8a96e" opacity="0.7" 
                   style={{
                     strokeDasharray: `${progress} ${perim}`,
-                    transition: 'stroke-dasharray 1s linear'
+                    transition: 'stroke-dasharray 0.3s linear'
                   }} />
               </svg>
             </div>
@@ -309,19 +250,13 @@ export default function Home() {
               {!unlocked ? <Lock className="w-4 h-4 shrink-0" /> : <Unlock className="w-5 h-5 text-[#e8eef8] shrink-0 animate-unlock-icon" />}
               <span>I Want VIP Access Now</span>
             </button>
-            
-            {started && !unlocked && remaining <= 45 && (
-              <div className="absolute left-1/2 -translate-x-1/2 -bottom-8 text-[0.65rem] sm:text-[0.7rem] tracking-[0.15em] sm:tracking-[0.2em] text-[#8aa4c8] opacity-70 whitespace-nowrap animate-fade-up">
-                BUTTON WILL UNLOCK IN: <span className="font-mono text-[#c8a96e] text-[0.75rem] sm:text-[0.8rem]">{timeStr}</span>
-              </div>
-            )}
           </div>
 
         </div>
       </section>
 
       <footer className="relative z-10 text-center p-8 text-[0.7rem] tracking-[0.15em] text-[#8aa4c8] opacity-30 border-t border-[rgba(32,96,200,0.08)]">
-        © {new Date().getFullYear()} Sofia de Luca · All rights reserved
+        © {new Date().getFullYear()} · Todos os direitos reservados
       </footer>
     </div>
   );
