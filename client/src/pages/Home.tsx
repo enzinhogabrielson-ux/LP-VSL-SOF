@@ -255,7 +255,7 @@ export default function Home() {
               opacity: unlocked ? 1 : (started ? 0.8 : 0.5),
               letterSpacing: unlocked ? '.1em' : '.2em'
             }}>
-            {unlocked ? "Você está a um passo de mudar tudo." : "Assista ao vídeo até o final para liberar seu acesso"}
+            {unlocked ? "You are one step away from changing everything." : "Watch the video until the end to unlock your access"}
           </p>
 
           <div className="relative inline-block w-full max-w-[280px] sm:max-w-[320px]">
@@ -294,7 +294,7 @@ export default function Home() {
       </section>
 
       <footer className="relative z-10 text-center p-8 text-[0.7rem] tracking-[0.15em] text-[#8aa4c8] opacity-30 border-t border-[rgba(32,96,200,0.08)]">
-        © {new Date().getFullYear()} · Todos os direitos reservados
+        © {new Date().getFullYear()} · All rights reserved
       </footer>
     </div>
   );
