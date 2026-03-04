@@ -60,38 +60,38 @@ export default function Home() {
       player.on('volumechange', (data) => {
         setIsMuted(data.volume === 0);
       });
-    }
-  }, []);
 
-  // Tenta dar play com som assim que o usuário scrollar ou tocar na tela
+      // Tenta dar play com som assim que o usuário tocar na tela ou clicar
   useEffect(() => {
     const handleInteraction = () => {
       if (!started && playerRef.current) {
         playerRef.current.setVolume(1).then(() => {
-          playerRef.current.play().then(() => {
-            setIsMuted(false);
-            setStarted(true);
-          }).catch(e => {
-            console.log("Play com som bloqueado mesmo após interação", e);
-            // Fallback para mudo se ainda assim bloquear
-            playerRef.current?.setVolume(0).then(() => {
-              playerRef.current?.play();
+          playerRef.current?.setCurrentTime(0).then(() => {
+            playerRef.current?.play().then(() => {
+              setIsMuted(false);
               setStarted(true);
+            }).catch(e => {
+              console.log("Play com som bloqueado mesmo após interação", e);
+              // Se por acaso bloquear o clique, pelo menos tenta mudo
+              playerRef.current?.setVolume(0).then(() => {
+                playerRef.current?.play();
+                setStarted(true);
+              });
             });
           });
         });
         
-        window.removeEventListener('scroll', handleInteraction);
         window.removeEventListener('touchstart', handleInteraction);
+        window.removeEventListener('click', handleInteraction);
       }
     };
 
-    window.addEventListener('scroll', handleInteraction, { passive: true });
     window.addEventListener('touchstart', handleInteraction, { passive: true });
+    window.addEventListener('click', handleInteraction, { passive: true });
     
     return () => {
-      window.removeEventListener('scroll', handleInteraction);
       window.removeEventListener('touchstart', handleInteraction);
+      window.removeEventListener('click', handleInteraction);
     };
   }, [started]);
 
@@ -104,6 +104,7 @@ export default function Home() {
       playerRef.current.setVolume(1);
       playerRef.current.setCurrentTime(0);
       setIsMuted(false);
+      setStarted(true);
       playerRef.current.play();
       return;
     }
