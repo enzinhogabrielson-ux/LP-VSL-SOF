@@ -110,13 +110,13 @@ export default function Home() {
   const actualProgress = duration > 0 ? (currentTime / duration) : 0;
   let fakeProgressPercentage = 0;
   
-  // Lógica da barrinha manipulada:
-  // Até a metade do vídeo (0 a 0.5), a barra corre rápido até 80%
-  // Da metade pro final (0.5 a 1.0), a barra vai mais devagar de 80% a 100%
-  if (actualProgress <= 0.5) {
-    fakeProgressPercentage = (actualProgress / 0.5) * 80;
+  // Lógica da barrinha manipulada (estilo VSL):
+  // Fica muito rápido no começo: preenche 90% da barra nos primeiros 15% do vídeo
+  // Depois desacelera muito: leva o restante (85% do vídeo) para ir de 90% a 100%
+  if (actualProgress <= 0.15) {
+    fakeProgressPercentage = (actualProgress / 0.15) * 90;
   } else {
-    fakeProgressPercentage = 80 + ((actualProgress - 0.5) / 0.5) * 20;
+    fakeProgressPercentage = 90 + ((actualProgress - 0.15) / 0.85) * 10;
   }
   
   // Perimeter for SVG rect ring: 2 * (width + height) = 2 * (296 + 56)
