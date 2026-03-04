@@ -163,7 +163,7 @@ export default function Home() {
       />
       
       {/* SINGLE SECTION: HERO + VIDEO */}
-      <section className="relative z-10 min-h-screen flex flex-col items-center justify-start px-4 pt-[50px] sm:pt-[60px] pb-6 text-center" 
+      <section className="relative z-10 min-h-screen flex flex-col items-center justify-start px-4 pt-[75px] sm:pt-[85px] pb-6 text-center" 
         style={{ 
           background: 'radial-gradient(ellipse 120% 60% at 50% 0%, rgba(32,96,200,0.18) 0%, transparent 70%), linear-gradient(180deg, #030d1a 0%, #050f20 100%)' 
         }}>
