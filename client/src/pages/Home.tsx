@@ -177,8 +177,8 @@ export default function Home() {
         </div>
         
         {/* WARNING ALERT */}
-        <div className="fixed bottom-0 left-0 w-full animate-fade-up z-50">
-          <div className="bg-[#cc0000] py-3 px-4 flex items-center justify-center gap-3 shadow-[0_-4px_30px_rgba(204,0,0,0.5)]">
+        <div className="absolute top-0 w-full animate-fade-down z-50">
+          <div className="bg-[#cc0000] py-3 px-4 flex items-center justify-center gap-3 shadow-[0_4px_30px_rgba(204,0,0,0.5)]">
             <span className="flex h-2.5 w-2.5 relative shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-90"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
@@ -322,7 +322,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="relative z-10 text-center py-4 px-2 pb-16 text-[0.6rem] tracking-[0.15em] text-[#8aa4c8] opacity-30 border-t border-[rgba(32,96,200,0.08)]">
+      <footer className="relative z-10 text-center py-4 px-2 text-[0.6rem] tracking-[0.15em] text-[#8aa4c8] opacity-30 border-t border-[rgba(32,96,200,0.08)]">
         © {new Date().getFullYear()} · All rights reserved
       </footer>
     </div>
