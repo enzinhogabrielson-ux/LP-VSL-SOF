@@ -62,6 +62,9 @@ export default function Home() {
       });
 
       // Tenta dar play com som assim que o usuário tocar na tela ou clicar
+    }
+  }, [started]);
+
   useEffect(() => {
     const handleInteraction = () => {
       if (!started && playerRef.current) {
@@ -136,7 +139,6 @@ export default function Home() {
 
   const actualProgress = duration > 0 ? (currentTime / duration) : 0;
   let fakeProgressPercentage = 0;
-  
   // Lógica da barrinha manipulada (estilo VSL):
   // Fica muito rápido no começo: preenche 90% da barra nos primeiros 15% do vídeo
   // Depois desacelera muito: leva o restante (85% do vídeo) para ir de 90% a 100%
