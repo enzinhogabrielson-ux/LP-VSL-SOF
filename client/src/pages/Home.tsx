@@ -61,9 +61,13 @@ export default function Home() {
         setIsMuted(data.volume === 0);
       });
 
-      // Autoplay mudo por padrão para o vídeo rolar no fundo
-      player.setVolume(0).then(() => {
-        player.play().catch(e => console.log("Autoplay prevented", e));
+      // Tenta autoplay com som. Alguns navegadores podem bloquear.
+      player.setVolume(1).then(() => {
+        player.play().catch(e => {
+          console.log("Autoplay com som bloqueado pelo navegador", e);
+          // Fallback para mudo se bloqueado
+          player.setVolume(0).then(() => player.play());
+        });
       });
     }
   }, []);
