@@ -163,7 +163,7 @@ export default function Home() {
       />
       
       {/* SINGLE SECTION: HERO + VIDEO */}
-      <section className="relative z-10 min-h-screen flex flex-col items-center justify-start px-4 pt-[44px] sm:pt-[54px] pb-4 text-center" 
+      <section className="relative z-10 min-h-screen flex flex-col items-center justify-start px-4 pt-[50px] sm:pt-[60px] pb-6 text-center" 
         style={{ 
           background: 'radial-gradient(ellipse 120% 60% at 50% 0%, rgba(32,96,200,0.18) 0%, transparent 70%), linear-gradient(180deg, #030d1a 0%, #050f20 100%)' 
         }}>
@@ -189,18 +189,18 @@ export default function Home() {
           </div>
         </div>
         
-        <div className="flex flex-col items-center justify-center pb-6 w-full max-w-[1000px] mx-auto text-center px-2 animate-fade-up" style={{ animationDelay: '0.2s' }}>
+        <div className="flex flex-col items-center justify-center pb-4 w-full max-w-[1000px] mx-auto text-center px-2 animate-fade-up" style={{ animationDelay: '0.2s' }}>
           
-          <div className="text-[0.65rem] tracking-[0.5em] uppercase text-[#c8a96e] opacity-80 mb-4 animate-fade-up" style={{ animationDelay: '0.2s' }}>
+          <div className="text-[0.6rem] sm:text-[0.65rem] tracking-[0.4em] uppercase text-[#c8a96e] opacity-80 mb-2 animate-fade-up" style={{ animationDelay: '0.2s' }}>
             Sofia de Luca · Restricted Access
           </div>
           
-          <h1 className="font-sans font-extrabold leading-[1.1] animate-fade-up max-w-[900px] mx-auto tracking-tight flex flex-col gap-2 md:gap-3" 
+          <h1 className="font-sans font-extrabold leading-[1.1] animate-fade-up max-w-[900px] mx-auto tracking-tight flex flex-col gap-1 md:gap-2" 
             style={{ animationDelay: '0.4s' }}>
-            <span className="text-[clamp(2.5rem,5vw,5.5rem)] text-[#facc15] uppercase drop-shadow-sm leading-tight">
+            <span className="text-[clamp(2rem,4.5vw,4.5rem)] text-[#facc15] uppercase drop-shadow-sm leading-tight">
               $10,000 IN YOUR<br /> BANK ACCOUNT...
             </span>
-            <span className="text-[clamp(1.5rem,3vw,3rem)] font-light tracking-normal opacity-90 text-white mt-2">
+            <span className="text-[clamp(1.2rem,2.5vw,2.2rem)] font-light tracking-normal opacity-90 text-white mt-1">
               In 90 seconds, I'll hand it to you.
             </span>
           </h1>
@@ -208,7 +208,7 @@ export default function Home() {
         </div>
         
         {/* VIDEO PLAYER */}
-        <div className="relative w-full max-w-[820px] animate-fade-up group mb-4" style={{ animationDelay: '0.4s' }}>
+        <div className="relative w-full max-w-[700px] animate-fade-up group mb-3" style={{ animationDelay: '0.4s' }}>
           <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden" 
             style={{
               boxShadow: '0 0 80px rgba(32,96,200,0.25), 0 0 0 1px rgba(32,96,200,0.2)'
@@ -264,7 +264,7 @@ export default function Home() {
           
           {/* Progress Bar under video */}
           {started && !unlocked && (
-            <div className="w-full h-1 mt-4 bg-[rgba(32,96,200,0.1)] rounded-full overflow-hidden">
+            <div className="w-full h-1 mt-3 bg-[rgba(32,96,200,0.1)] rounded-full overflow-hidden">
               <div 
                 className="h-full bg-gradient-to-r from-[#2060c8] to-[#c8a96e] transition-all duration-300 ease-linear shadow-[0_0_10px_rgba(200,169,110,0.5)]"
                 style={{ width: `${fakeProgressPercentage}%` }}
@@ -272,13 +272,13 @@ export default function Home() {
             </div>
           )}
           {unlocked && (
-            <div className="w-full h-1 mt-4 bg-gradient-to-r from-[#2060c8] to-[#c8a96e] rounded-full shadow-[0_0_10px_rgba(200,169,110,0.5)]" />
+            <div className="w-full h-1 mt-3 bg-gradient-to-r from-[#2060c8] to-[#c8a96e] rounded-full shadow-[0_0_10px_rgba(200,169,110,0.5)]" />
           )}
         </div>
 
         {/* CTA BOX */}
         <div className="text-center animate-fade-up w-full px-2" style={{ animationDelay: '0.6s' }}>
-          <p className="text-[0.65rem] sm:text-[0.72rem] tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-4 transition-all duration-700" 
+          <p className="text-[0.6rem] sm:text-[0.65rem] tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-3 transition-all duration-700" 
             style={{
               color: unlocked ? '#c8a96e' : '#8aa4c8',
               opacity: unlocked ? 1 : (started ? 0.8 : 0.5),
@@ -303,7 +303,7 @@ export default function Home() {
               disabled={!unlocked}
               onClick={() => window.location.href = 'https://t.me/code88protocol'}
               className={`
-                w-full relative inline-flex justify-center items-center gap-2 sm:gap-3 py-[16px] sm:py-[18px] rounded
+                w-full relative inline-flex justify-center items-center gap-2 sm:gap-3 py-[14px] sm:py-[16px] rounded
                 font-sans text-[0.85rem] sm:text-[0.95rem] font-medium tracking-[0.05em] sm:tracking-[0.08em] uppercase
                 text-[#e8eef8] overflow-hidden transition-all duration-400
                 ${!unlocked ? 'opacity-25 cursor-not-allowed' : 'hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(32,96,200,0.55)] cursor-pointer btn-shimmer pulse-btn unlocked-animation'}
@@ -322,7 +322,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="relative z-10 text-center p-8 text-[0.7rem] tracking-[0.15em] text-[#8aa4c8] opacity-30 border-t border-[rgba(32,96,200,0.08)]">
+      <footer className="relative z-10 text-center py-4 px-2 text-[0.6rem] tracking-[0.15em] text-[#8aa4c8] opacity-30 border-t border-[rgba(32,96,200,0.08)]">
         © {new Date().getFullYear()} · All rights reserved
       </footer>
     </div>
