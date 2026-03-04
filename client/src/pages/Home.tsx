@@ -31,6 +31,7 @@ const Particles = () => {
 export default function Home() {
   const [started, setStarted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [unlocked, setUnlocked] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -52,10 +53,42 @@ export default function Home() {
         }
       });
 
-      player.on('play', () => setIsPlaying(true));
+      player.on('play', () => {
+        setIsPlaying(true);
+        setStarted(true);
+      });
       player.on('pause', () => setIsPlaying(false));
+      player.on('volumechange', (data) => {
+        setIsMuted(data.volume === 0);
+      });
+
+      // Tenta autoplay mudo
+      player.setVolume(0).then(() => {
+        player.play().catch(err => console.log("Autoplay prevented", err));
+      });
     }
   }, []);
+
+  const togglePlayPause = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!playerRef.current) return;
+    
+    if (isMuted) {
+      // Se estava mudo, ao clicar, tira o mudo, reinicia o vídeo para ele pegar do começo e dá play
+      playerRef.current.setVolume(1);
+      playerRef.current.setCurrentTime(0);
+      setIsMuted(false);
+      playerRef.current.play();
+      return;
+    }
+
+    if (isPlaying) {
+      playerRef.current.pause();
+    } else {
+      playerRef.current.play();
+    }
+  };
 
   const handleInitialPlay = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -67,29 +100,28 @@ export default function Home() {
       try {
         await playerRef.current.setVolume(1);
         await playerRef.current.play();
+        setIsMuted(false);
       } catch (err) {
         console.error("Vimeo playback error:", err);
       }
     }
   };
 
-  const togglePlayPause = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!playerRef.current) return;
-    
-    if (isPlaying) {
-      playerRef.current.pause();
-    } else {
-      playerRef.current.play();
-    }
-  };
-
-  const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const actualProgress = duration > 0 ? (currentTime / duration) : 0;
+  let fakeProgressPercentage = 0;
+  
+  // Lógica da barrinha manipulada:
+  // Até a metade do vídeo (0 a 0.5), a barra corre rápido até 80%
+  // Da metade pro final (0.5 a 1.0), a barra vai mais devagar de 80% a 100%
+  if (actualProgress <= 0.5) {
+    fakeProgressPercentage = (actualProgress / 0.5) * 80;
+  } else {
+    fakeProgressPercentage = 80 + ((actualProgress - 0.5) / 0.5) * 20;
+  }
   
   // Perimeter for SVG rect ring: 2 * (width + height) = 2 * (296 + 56)
   const perim = 2 * (296 + 56);
-  const progress = (progressPercentage / 100) * perim;
+  const progress = (fakeProgressPercentage / 100) * perim;
   
   return (
     <div className="bg-[#030d1a] min-h-screen text-[#e8eef8] font-sans overflow-x-hidden selection:bg-[#2060c8] selection:text-white">
@@ -206,7 +238,7 @@ export default function Home() {
             <div className="w-full h-1 mt-4 bg-[rgba(32,96,200,0.1)] rounded-full overflow-hidden">
               <div 
                 className="h-full bg-gradient-to-r from-[#2060c8] to-[#c8a96e] transition-all duration-300 ease-linear shadow-[0_0_10px_rgba(200,169,110,0.5)]"
-                style={{ width: `${progressPercentage}%` }}
+                style={{ width: `${fakeProgressPercentage}%` }}
               />
             </div>
           )}
