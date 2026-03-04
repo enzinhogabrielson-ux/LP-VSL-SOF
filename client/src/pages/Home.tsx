@@ -55,16 +55,15 @@ export default function Home() {
 
       player.on('play', () => {
         setIsPlaying(true);
-        setStarted(true);
       });
       player.on('pause', () => setIsPlaying(false));
       player.on('volumechange', (data) => {
         setIsMuted(data.volume === 0);
       });
 
-      // Tenta autoplay mudo
+      // Autoplay mudo por padrão para o vídeo rolar no fundo
       player.setVolume(0).then(() => {
-        player.play().catch(err => console.log("Autoplay prevented", err));
+        player.play().catch(e => console.log("Autoplay prevented", e));
       });
     }
   }, []);
@@ -75,7 +74,6 @@ export default function Home() {
     if (!playerRef.current) return;
     
     if (isMuted) {
-      // Se estava mudo, ao clicar, tira o mudo, reinicia o vídeo para ele pegar do começo e dá play
       playerRef.current.setVolume(1);
       playerRef.current.setCurrentTime(0);
       setIsMuted(false);
@@ -99,6 +97,7 @@ export default function Home() {
     if (playerRef.current) {
       try {
         await playerRef.current.setVolume(1);
+        await playerRef.current.setCurrentTime(0);
         await playerRef.current.play();
         setIsMuted(false);
       } catch (err) {
@@ -191,7 +190,7 @@ export default function Home() {
                 <iframe 
                   id="vimeo-player"
                   ref={iframeRef}
-                  src="https://player.vimeo.com/video/1170075786?autoplay=0&muted=1&controls=0&loop=1&title=0&byline=0&portrait=0" 
+                  src="https://player.vimeo.com/video/1170075786?autoplay=1&muted=0&controls=0&loop=1&title=0&byline=0&portrait=0" 
                   frameBorder="0" 
                   allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
                   style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }} 
