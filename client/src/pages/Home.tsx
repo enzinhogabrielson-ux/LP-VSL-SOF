@@ -123,20 +123,26 @@ export default function Home() {
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
             </span>
             <p className="text-white text-[0.7rem] sm:text-xs md:text-sm font-extrabold tracking-[0.15em] sm:tracking-[0.25em] uppercase text-center">
-              AVISO: NÃO FECHE ESTA PÁGINA · ACESSO ÚNICO
+              WARNING: DO NOT CLOSE THIS PAGE · SINGLE VIEW ONLY
             </p>
           </div>
         </div>
         
         <div className="flex flex-col items-center justify-center pt-24 pb-8 w-full max-w-[1000px] mx-auto text-center px-2 animate-fade-up" style={{ animationDelay: '0.2s' }}>
           
-          <h1 className="font-sans font-extrabold text-[clamp(1.4rem,4vw,2.5rem)] text-[#facc15] uppercase tracking-wider leading-[1.2] mb-3 drop-shadow-md max-w-[850px] mx-auto">
-            O SEGREDO DOS PRODUTOS<br/> DE BAIXO TICKET DO<br/> HOMEM DE NOVEMBRO
-          </h1>
+          <div className="text-[0.65rem] tracking-[0.5em] uppercase text-[#c8a96e] opacity-80 mb-6 animate-fade-up" style={{ animationDelay: '0.2s' }}>
+            Sofia de Luca · Restricted Access
+          </div>
           
-          <p className="text-[clamp(1rem,2.5vw,1.4rem)] text-white font-normal tracking-wide max-w-[800px] mx-auto opacity-95 mb-8">
-            Reproduza esse segredo em poucos passos
-          </p>
+          <h1 className="font-sans font-extrabold leading-[1.1] animate-fade-up max-w-[900px] mx-auto tracking-tight flex flex-col gap-3 md:gap-4" 
+            style={{ animationDelay: '0.4s' }}>
+            <span className="text-[clamp(2.5rem,5vw,5.5rem)] text-[#facc15] uppercase drop-shadow-sm leading-tight">
+              $10,000 IN YOUR<br /> BANK ACCOUNT...
+            </span>
+            <span className="text-[clamp(1.5rem,3vw,3rem)] font-light tracking-normal opacity-90 text-white mt-2">
+              In 90 seconds, I'll hand it to you.
+            </span>
+          </h1>
           
         </div>
         
@@ -174,7 +180,7 @@ export default function Home() {
                   <Play className="text-white w-8 h-8 sm:w-10 sm:h-10 ml-1 fill-current" />
                 </div>
                 <span className="text-[0.7rem] sm:text-[0.85rem] font-bold tracking-[0.15em] sm:tracking-[0.2em] uppercase text-white bg-black/40 px-4 py-1.5 rounded-full backdrop-blur-md">
-                  Clique para Assistir
+                  Click to Unmute & Watch
                 </span>
               </div>
             )}
